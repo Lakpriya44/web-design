@@ -32,7 +32,7 @@ async function handleLogin(): Promise<void> {
             </svg>
           </div>
           <h1 class="font-display text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
-          <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Sign in to your ShopVue account</p>
+          <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Sign in to your Stack & Stock account</p>
         </div>
 
         <!-- Demo hint -->
