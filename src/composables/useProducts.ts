@@ -16,7 +16,7 @@ export function useProducts() {
     query: '',
     category: '',
     minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: 2000,
     sortBy: 'title',
   })
 

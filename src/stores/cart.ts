@@ -1,19 +1,25 @@
 // src/stores/cart.ts — Global shopping cart with localStorage persistence
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { CartItem, Product } from '@/services/api'
+import type { CartItem, Product } from '../services/api'
+
+function isCartItem(x: unknown): x is CartItem {
+  return typeof x === 'object' && x !== null && 'product' in x && 'quantity' in x
+}
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref<CartItem[]>(loadFromStorage())
 
   function loadFromStorage(): CartItem[] {
-    try {
-      const raw = localStorage.getItem('cart')
-      return raw ? (JSON.parse(raw) as CartItem[]) : []
-    } catch {
-      return []
-    }
+  try {
+    const raw = localStorage.getItem('cart')
+    if (!raw) return []
+    const parsed: unknown = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed.filter(isCartItem) : []
+  } catch {
+    return []
   }
+}
 
   function persist(): void {
     localStorage.setItem('cart', JSON.stringify(items.value))

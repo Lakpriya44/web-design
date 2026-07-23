@@ -2,7 +2,11 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
-import type { AuthResponse } from '@/services/api'
+import type { AuthResponse } from '../services/api'
+
+interface ApiErrorResponse {
+  message: string
+}
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<AuthResponse | null>(null)
@@ -37,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.setItem('user', JSON.stringify(response.data))
       return true
     } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
+      if (axios.isAxiosError<ApiErrorResponse>(err)) {
         error.value = err.response?.data?.message ?? 'Login failed'
       } else {
         error.value = 'An unexpected error occurred'

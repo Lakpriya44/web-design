@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import FilterBar from '@/components/FilterBar.vue'
-import ProductCard from '@/components/ProductCard.vue'
-import { useProducts } from '@/composables/useProducts'
+import FilterBar from '../components/FilterBar.vue'
+import ProductCard from '../components/ProductCard.vue'
+import { useProducts } from '../composables/useProducts'
 
-const { products, categories, loading, error, total, filters, fetchProducts, fetchCategories } = useProducts()
+const { products, categories, loading, error, filters, fetchProducts, fetchCategories } = useProducts()
 
 onMounted(async () => {
   await fetchCategories()
@@ -41,7 +41,7 @@ async function handleSearch(): Promise<void> {
           <FilterBar
             :categories="categories"
             :filters="filters"
-            :total="total"
+            :total="products.length"
             @update:filters="(v) => Object.assign(filters, v)"
             @search="handleSearch"
           />
