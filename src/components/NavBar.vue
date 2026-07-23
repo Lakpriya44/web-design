@@ -74,7 +74,7 @@ function handleLogout(): void {
         <div v-if="mobileOpen" class="md:hidden py-4 border-t border-stone-200 dark:border-gray-800 flex flex-col gap-4">
           <RouterLink to="/" @click="mobileOpen = false" class="text-sm font-medium">Shop</RouterLink>
           <RouterLink v-if="!auth.isLoggedIn" to="/login" @click="mobileOpen = false" class="text-sm font-medium text-brand-600">Sign In</RouterLink>
-          <button v-else @click="handleLogout; mobileOpen = false" class="text-sm font-medium text-red-500 text-left">Logout</button>
+          <button v-else @click="handleLogout(); mobileOpen = false" class="text-sm font-medium text-red-500 text-left">Logout</button>
           <button @click="theme.toggle()" class="text-sm font-medium text-left">{{ theme.isDark ? '☀️ Light Mode' : '🌙 Dark Mode' }}</button>
         </div>
       </Transition>
