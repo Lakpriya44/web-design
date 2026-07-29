@@ -23,7 +23,11 @@ function handleLogout(): void {
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center gap-2">
-          <span class="text-2xl font-display font-bold text-brand-600 dark:text-orange-400 tracking-tight">Shop<span class="text-gray-900 dark:text-white">Vue</span></span>
+          <span class="text-2xl font-display font-bold text-gray-900 dark:text-white">Stack 
+            <span class="text-brand-600 dark:text-orange-400 tracking-tight"> & 
+              <span class="text-gray-900 dark:text-white">Stock</span>
+            </span>
+          </span>
         </RouterLink>
 
         <!-- Desktop Nav -->
