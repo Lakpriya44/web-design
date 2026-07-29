@@ -1,10 +1,28 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
 import { useAuthStore } from '@/stores/auth'
 
 const cart = useCartStore()
 const auth = useAuthStore()
+
+const checkoutSuccess = ref(false)
+
+function handleCheckout() {
+  if (cart.items.length === 0) return
+
+  // 1. Show the success notification
+  checkoutSuccess.value = true
+
+  // 2. Clear the cart
+  cart.clearCart()
+
+  // 3. Auto-hide the success message after 6 seconds
+  setTimeout(() => {
+    checkoutSuccess.value = false
+  }, 6000)
+}
 </script>
 
 <template>
@@ -13,6 +31,21 @@ const auth = useAuthStore()
       Your Cart
       <span v-if="cart.totalItems > 0" class="text-lg font-normal text-gray-500 dark:text-gray-400 ml-2">({{ cart.totalItems }} items)</span>
     </h1>
+
+    <!-- Success Banner -->
+    <div
+      v-if="checkoutSuccess"
+      class="mb-8 p-4 sm:p-5 rounded-2xl bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 flex items-start gap-3 shadow-sm"
+      role="alert"
+    >
+      <svg class="w-6 h-6 text-green-600 dark:text-green-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <h3 class="font-bold text-base">Order placed successfully!</h3>
+        <p class="text-sm mt-0.5 text-green-700 dark:text-green-400">Thank you for your purchase. Your cart has been cleared.</p>
+      </div>
+    </div>
 
     <!-- Empty cart -->
     <div v-if="cart.items.length === 0" class="text-center py-24">
@@ -53,7 +86,11 @@ const auth = useAuthStore()
 
           <!-- Quantity controls + remove -->
           <div class="flex flex-col items-end justify-between">
-            <button @click="cart.removeItem(item.product.id)" class="text-gray-400 hover:text-red-500 transition-colors p-1">
+            <button 
+              @click="cart.removeItem(item.product.id)" 
+              class="text-gray-400 hover:text-red-500 transition-colors p-1"
+              :aria-label="`Remove ${item.product.title} from cart`"
+            >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -62,11 +99,13 @@ const auth = useAuthStore()
               <button
                 @click="cart.updateQuantity(item.product.id, item.quantity - 1)"
                 class="px-2.5 py-1.5 text-gray-600 dark:text-gray-300 hover:bg-stone-100 dark:hover:bg-gray-700 text-sm font-bold transition-colors"
+                aria-label="Decrease quantity"
               >−</button>
               <span class="px-3 py-1.5 text-sm font-semibold text-gray-900 dark:text-white">{{ item.quantity }}</span>
               <button
                 @click="cart.updateQuantity(item.product.id, item.quantity + 1)"
                 class="px-2.5 py-1.5 text-gray-600 dark:text-gray-300 hover:bg-stone-100 dark:hover:bg-gray-700 text-sm font-bold transition-colors"
+                aria-label="Increase quantity"
               >+</button>
             </div>
             <p class="text-sm font-bold text-brand-600 dark:text-orange-400">${{ (item.product.price * item.quantity).toFixed(2) }}</p>
@@ -98,6 +137,7 @@ const auth = useAuthStore()
           <template v-if="auth.isLoggedIn">
             <button
               class="w-full mt-6 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 px-5 rounded-xl transition-colors active:scale-95 flex items-center justify-center gap-2"
+              @click="handleCheckout"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
