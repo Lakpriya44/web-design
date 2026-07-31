@@ -14,7 +14,12 @@ const emit = defineEmits<{
 
 function update(key: keyof SearchFilters, value: string | number): void {
   emit('update:filters', { ...props.filters, [key]: value })
-  if (key !== 'query') emit('search')
+  // Only 'category' changes the underlying data set fetched from the API.
+  // 'query' is triggered separately (Enter key / search action), and
+  // 'sortBy' / 'maxPrice' / 'minPrice' are already applied client-side in
+  // useProducts' filteredAndSorted computed, so re-fetching for them is
+  // redundant network traffic.
+  if (key === 'category') emit('search')
 }
 </script>
 
