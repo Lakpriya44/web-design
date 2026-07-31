@@ -64,7 +64,7 @@ function handleLogout(): void {
             <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-8 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
             <span v-if="cart.totalItems > 0" class="absolute -top-1 -right-1 bg-brand-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cart.totalItems }}</span>
           </RouterLink>
-          <button @click="mobileOpen = !mobileOpen" class="p-2":aria-label="mobileOpen ? 'Close navigation menu' : 'Open navigation menu'">
+          <button @click="mobileOpen = !mobileOpen" class="p-2" :aria-label="mobileOpen ? 'Close navigation menu' : 'Open navigation menu'">
             <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path v-if="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
               <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
